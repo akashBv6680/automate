@@ -24,7 +24,7 @@ class AgentAI:
                 'Lasso Regression': Lasso(),
                 'Ridge Regression': Ridge(),
                 'Elastic Net Regression': ElasticNet(),
-                'Decision Model Regression': DecisionTreeRegressor(),
+                'Decision Tree Regression': DecisionTreeRegressor(),
                 'Random Forest Regression': RandomForestRegressor(),
                 'Extra Trees Regressor': ExtraTreesRegressor(),
                 'Gradient Boosting Regressor': GradientBoostingRegressor(),
@@ -91,8 +91,10 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
     st.write(df.head())
 
-    X = df.drop('target', axis=1)
-    y = df['target']
+    target_column = st.selectbox("Select Target Column", df.columns)
+
+    X = df.drop(target_column, axis=1)
+    y = df[target_column]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
