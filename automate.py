@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error, accuracy_score
 from sklearn.linear_model import LinearRegression, Lasso, Ridge, ElasticNet, LogisticRegression
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
@@ -69,7 +69,7 @@ class AgentAI:
 
     def evaluate(self, y_test, y_pred, task):
         if task == 'Regression':
-            return mean_squared_error(y_test, y_pred)
+            return r2_score(y_test, y_pred)
         else:
             return accuracy_score(y_test, y_pred)
 
@@ -103,22 +103,23 @@ if uploaded_file is not None:
     metric = agent.evaluate(y_test, y_pred, task)
 
     st.write(f"Model: {model_name}")
-    st.write(f"Metric: {metric:.2f}")
+    st.write(f"R-squared: {metric:.2f}")
     st.write(f"API Key: {together_api_key}")
 
     # Find the best model
     best_model = None
-    best_metric = float('inf') if task == 'Regression' else 0
+    best_metric = float('-inf')
     for model in agent.models[task]:
         agent.train_model(X_train, y_train, task, model)
         y_pred = agent.predict(X_test, task, model)
         metric = agent.evaluate(y_test, y_pred, task)
-        if task == 'Regression' and metric < best_metric:
-            best_model = model
-            best_metric = metric
-        elif task != 'Regression' and metric > best_metric:
+        if metric > best_metric:
             best_model = model
             best_metric = metric
 
     st.write(f"Best Model: {best_model}")
-    st.write(f"Best Metric: {best_metric:.2f}")
+    st.write(f"Best R-squared: {best_metric:.2f}")
+
+    chat_input = st.text_input("Chat with Agent AI")
+    if chat_input:
+        st.write(f"Agent AI: I'm happy to chat with you about data science! You said: {chat_input}")
