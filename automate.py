@@ -15,7 +15,6 @@ import xgboost as xgb
 together_api_key = "tgp_v1_4hJBRX0XDlwnw_hhUnhP0e_lpI-u92Xhnqny2QIDAIM"
 
 # Define AI agent class
-class Agent
 class AgentAI:
     def __init__(self):
         self.models = {
