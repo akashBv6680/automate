@@ -15,6 +15,7 @@ import xgboost as xgb
 together_api_key = "tgp_v1_4hJBRX0XDlwnw_hhUnhP0e_lpI-u92Xhnqny2QIDAIM"
 
 # Define AI agent class
+class Agent
 class AgentAI:
     def __init__(self):
         self.models = {
@@ -103,8 +104,7 @@ if uploaded_file is not None:
     metric = agent.evaluate(y_test, y_pred, task)
 
     st.write(f"Model: {model_name}")
-    st.write(f"R-squared: {metric:.2f}")
-    st.write(f"API Key: {together_api_key}")
+    st.write(f"R-squared/Accuracy: {metric:.2f}")
 
     # Find the best model
     best_model = None
@@ -118,8 +118,27 @@ if uploaded_file is not None:
             best_metric = metric
 
     st.write(f"Best Model: {best_model}")
-    st.write(f"Best R-squared: {best_metric:.2f}")
+    st.write(f"Best R-squared/Accuracy: {best_metric:.2f}")
 
     chat_input = st.text_input("Chat with Agent AI")
     if chat_input:
-        st.write(f"Agent AI: I'm happy to chat with you about data science! You said: {chat_input}")
+        chat_input = chat_input.lower()
+        if "best model" in chat_input:
+            st.write(f"Agent AI: The best model for this task is {best_model} with a performance metric of {best_metric:.2f}")
+        elif "model performance" in chat_input:
+            st.write(f"Agent AI: The performance of the {model_name} model is {metric:.2f}")
+        elif "data" in chat_input:
+            st.write(f"Agent AI: The dataset has {X.shape[0]} rows and {X.shape[1]} columns")
+        elif "features" in chat_input:
+            st.write(f"Agent AI: The features in the dataset are {X.columns.tolist()}")
+        elif "target" in chat_input:
+            st.write(f"Agent AI: The target variable is {target_column}")
+        elif "help" in chat_input:
+            st.write("Agent AI: I can help you with the following topics:")
+            st.write("1. Best model")
+            st.write("2. Model performance")
+            st.write("3. Data")
+            st.write("4. Features")
+            st.write("5. Target")
+        else:
+            st.write(f"Agent AI: I'm happy to chat with you about data science! You said: {chat_input}")
