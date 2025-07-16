@@ -24,7 +24,7 @@ class AgentAI:
                 'Lasso Regression': Lasso(),
                 'Ridge Regression': Ridge(),
                 'Elastic Net Regression': ElasticNet(),
-                'Decision Tree Regression': DecisionTreeRegressor(),
+                'Decision Model Regression': DecisionTreeRegressor(),
                 'Random Forest Regression': RandomForestRegressor(),
                 'Extra Trees Regressor': ExtraTreesRegressor(),
                 'Gradient Boosting Regressor': GradientBoostingRegressor(),
@@ -48,8 +48,6 @@ class AgentAI:
                 'Complement NB': ComplementNB()
             }
         }
-    }
-
     def train_model(self, X_train, y_train, task, model_name, degree=2):
         if task == 'Regression':
             if model_name == 'Polynomial Regression':
